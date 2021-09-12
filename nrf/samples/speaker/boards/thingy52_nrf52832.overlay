@@ -1,0 +1,12 @@
+/ {
+    thingy_speaker: nrf-speaker0 {
+        compatible = "nordic,nrf-sw-speaker";
+        status = "okay";
+        enable_pin = <29>;
+        output_pin = <27>;
+        label = "thingy_speaker";
+    };
+    spk-pwr-ctrl {
+        status = "disabled";
+    };
+};

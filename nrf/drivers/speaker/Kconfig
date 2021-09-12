@@ -1,0 +1,59 @@
+# Speaker driver
+#
+# Copyright (c) 2021 Daniel Veilleux
+#
+# SPDX-License-Identifier: LicenseRef-BSD-5-Clause-Nordic
+#
+
+menuconfig SPEAKER
+	bool "Speaker driver"
+	select NRFX_PWM
+	select DYNAMIC_INTERRUPTS
+	select REQUIRES_FULL_LIBC
+    select CMSIS_DSP_FASTMATH
+    select CMSIS_DSP
+	help
+	  Enable speaker driver
+
+if SPEAKER
+
+config SPEAKER_INIT_PRIORITY
+	int "Speaker init priority"
+	default 90
+	help
+	  Speaker init priority
+
+config SPEAKER_ALLOW_PWM0
+	bool "Allow PWM0"
+	default y
+    select NRFX_PWM0
+	help
+		Allow the driver to use PWM peripheral instance 0
+
+config SPEAKER_ALLOW_PWM1
+	bool "Allow PWM1"
+	default y
+    select NRFX_PWM1
+	help
+		Allow the driver to use PWM peripheral instance 1
+
+config SPEAKER_ALLOW_PWM2
+	bool "Allow PWM2"
+	default y
+    select NRFX_PWM2
+	help
+		Allow the driver to use PWM peripheral instance 2
+if CONFIG_SOC_NRF52840 || CONFIG_SOC_NRF52833
+config SPEAKER_ALLOW_PWM3
+	bool "Allow PWM3"
+	default y
+    select NRFX_PWM3
+	help
+		Allow the driver to use PWM peripheral instance 3
+endif
+
+module = SPEAKER
+module-str = SPEAKER
+source "${ZEPHYR_BASE}/subsys/logging/Kconfig.template.log_config"
+
+endif #SPEAKER

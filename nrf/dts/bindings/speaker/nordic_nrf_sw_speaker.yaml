@@ -1,0 +1,29 @@
+# Copyright (c) 2021 Daniel Veilleux
+# SPDX-License-Identifier: LicenseRef-BSD-5-Clause-Nordic
+
+description: Speaker output driver
+
+compatible: "nordic,nrf-sw-speaker"
+
+include: base.yaml
+
+properties:
+  label:
+    required: true
+    type: string
+    description: Human readable string describing the device
+
+  status:
+    required: true
+    type: string
+    description: Human readable string describing the device's status
+
+  output_pin:
+    type: int
+    description: Output pin, using NRFX-compatible index
+    required: true
+
+  enable_pin:
+    type: int
+    description: Enable pin, using NRFX-compatible index. Set to 0xff to disable.
+    required: true
