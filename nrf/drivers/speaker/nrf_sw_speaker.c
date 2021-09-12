@@ -285,7 +285,7 @@ static int nrf_sw_speaker_tone_play(const struct device *dev,
     p_data->cb = cb;
 
     float    period         = (1.0f / freq_hz);
-    uint32_t num            = (uint32_t)(period / 16.0e-6f);
+    uint32_t num            = MIN(TONE_BUF_SIZE, (uint32_t)(period / 16.0e-6f));
     uint16_t playback_count = (uint32_t)((duration_ms / 1000.0f) / period);
 
     for (uint32_t i = 0; i < num; i++)
