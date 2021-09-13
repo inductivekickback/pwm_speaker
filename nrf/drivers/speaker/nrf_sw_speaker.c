@@ -256,28 +256,28 @@ static int nrf_sw_speaker_tone_play(const struct device *dev,
         return -EBUSY;
     }
 
-    int err = k_sem_take(&p_data->sem, K_FOREVER);
-    if (0 != err) {
-        return err;
-    }
-
     if ((0 == duration_ms) || (0 == volume)) {
-        goto ERR_EXIT;
+        return -1;
     }
 
     if ((SPEAKER_MIN_FREQ_HZ > freq_hz) || (SPEAKER_MAX_FREQ_HZ < freq_hz))
     {
-        goto ERR_EXIT;
+        return -1;
     }
 
     if (SPEAKER_MAX_VOLUME < volume)
     {
-        goto ERR_EXIT;
+        return -1;
     }
 
     if (SPEAKER_MAX_DURATION_MS < duration_ms)
     {
-        goto ERR_EXIT;
+        return -1;
+    }
+
+    int err = k_sem_take(&p_data->sem, K_FOREVER);
+    if (0 != err) {
+        return err;
     }
 
     p_data->cb = cb;
@@ -304,9 +304,6 @@ static int nrf_sw_speaker_tone_play(const struct device *dev,
     speaker_enable(p_cfg->enable_pin);
     nrfx_pwm_simple_playback(p_data->pwm_instance, &seq, playback_count, NRFX_PWM_FLAG_STOP);
     return 0;
-ERR_EXIT:
-    k_sem_give(&p_data->sem);
-    return -1;
 }
 
 static int nrf_sw_speaker_pcm_play(const struct device *dev,
